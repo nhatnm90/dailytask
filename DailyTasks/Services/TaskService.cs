@@ -1,0 +1,65 @@
+﻿using DailyTasks.Data;
+using DailyTasks.DTOs;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DailyTasks.Services
+{
+    public class TaskService : ITaskService
+    {
+        private readonly DailyTaskContext _context;
+        public TaskService(DailyTaskContext context)
+        {
+            this._context = context;
+        }
+
+        public void Add(TaskModel taskModel)
+        {
+            _context.Add(taskModel);
+            _context.SaveChanges();
+        }
+
+        public bool Delete(Guid id)
+        {
+            var task = this.GetTaskById(id);
+            if (task != null)
+            {
+                _context.Remove(task);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public IEnumerable<TaskModel> GetAllTask()
+        {
+            return _context.TaskModels.Where(x => !x.IsDone).ToList();
+        }
+
+        public TaskModel GetTaskById(Guid id)
+        {
+            return _context.TaskModels.Find(id);
+        }
+
+        public bool Update(Guid id, TaskModel taskModel)
+        {
+            var task = this.GetTaskById(id);
+            if (task != null)
+            {
+                task.IsDone = taskModel.IsDone;
+                task.Priority = taskModel.Priority;
+                task.TaskName = taskModel.TaskName;
+                task.Comment = taskModel.Comment;
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+    }
+}

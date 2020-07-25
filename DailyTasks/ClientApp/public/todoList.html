@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta
+			name="description"
+			content="Web site created using create-react-app"
+	    />
+		<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+		<title>React App</title>
+        <link href="%PUBLIC_URL%/css/bootstrap.css" rel="stylesheet">
+        <link href="%PUBLIC_URL%/css/style.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+			
+			<div class="page-header">
+			  <h1>TODO List<small>NN ReactJS</small></h1>
+			</div>
+			
+			<div class="row">
+				
+				<!-- SEARCH AREA -->
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+					
+					<div class="input-group">
+						<input type="text" className="form-control" placeholder="whatever you want..."/>
+						<div className="input-group-btn">
+							<button className="btn btn-success" type="button">Search</button>
+						</div>
+					</div>
+					
+				</div>
+				
+				<!-- SORT AREA -->	
+				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+					<div class="dropdown">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						  Sort by
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						  <a class="dropdown-item" href="#">Name Asc</a>
+						  <a class="dropdown-item" href="#">Name Desc</a>
+						  <a class="dropdown-item" href="#">Level Asc</a>
+						  <a class="dropdown-item" href="#">Level Desc</a>
+						</div>
+					  </div>
+				</div>
+				
+				<!-- ADD NEW TASK BUTTON -->
+				
+				<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+					
+					<button type="button" class="btn btn-default">Add new task</button>
+					
+				</div>
+				
+				<!-- ADD NEW TASK FORM -->
+				
+				<div class="row">
+					
+					<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">					
+						<form action="" method="POST" role="form">
+							<div class="form-group">
+								<label for="">label</label>
+								<input type="text" class="form-control" id="" placeholder="Task name">
+							</div>
+							
+							<div class="form-group">
+								<label for="">label</label>
+								<select name="" id="input" class="form-control" required="required">
+									<option value="0">Low</option>
+									<option value="1">Medium</option>
+									<option value="2">High</option>
+								</select>
+								
+							</div>
+						
+							<button type="submit" class="btn btn-primary">Submit</button>
+							<button type="submit" class="btn btn-danger">Cancle</button>
+						</form>
+						
+					</div>
+					
+				</div>
+				
+
+			</div>
+			
+        </div>
+		<script src="%PUBLIC_URL%/js/jquery.min.js"></script>
+		<script src="%PUBLIC_URL%/js/bootstrap.js"></script>
+	</body>
+</html>

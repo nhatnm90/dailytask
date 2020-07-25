@@ -1,0 +1,15 @@
+div.row{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#spSort{
+    padding: 5px 10px 10px 10px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.modalCustom {
+    background-color: gray;
+    opacity: 0.5;
+}
