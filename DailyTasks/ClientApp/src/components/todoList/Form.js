@@ -1,10 +1,10 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { get, isEmpty, parseInt } from 'lodash';
 const uuidv4 = require('uuid/v4')
 
 class Form extends Component {
-
-
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -30,7 +30,8 @@ class Form extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps !== null) {
-            const { itemSelected: { id, taskName, level } } = nextProps;
+            const id = _.get(nextProps, 'itemSelected.id');
+            const { itemSelected: { taskName, level } } = nextProps;
             this.setState({
                 id, taskName, level
             });

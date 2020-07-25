@@ -30,7 +30,7 @@ namespace DailyTasks
                 configuration.RootPath = "ClientApp/build";
             });
 
-            var connectionString = Configuration.GetConnectionString("DBContext");
+            var connectionString = Configuration.GetConnectionString("AzureDBContext");
             services.AddDbContext<DailyTaskContext>(options =>
             {
                 options.UseSqlServer(connectionString);

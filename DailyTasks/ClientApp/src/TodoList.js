@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import axios from 'axios';
+import qs from 'qs';
 import Title from './components/todoList/Title'
 import Control from './components/todoList/Control/Control'
 import Form from './components/todoList/Form'
@@ -73,11 +75,27 @@ class TodoList extends Component {
 
 
     handleAddTask(task) {
-        let { items } = this.state;
-        items.push(task);
-        this.setState({ items, isShowAddForm: false });
+        // let { items } = this.state;
+        // items.push(task);
+        // this.setState({ items, isShowAddForm: false });
+        //
+        // localStorage.setItem('items', JSON.stringify(items));
+        const addTask = _.assign({}, { ...task }, { isDone: false });
 
-        localStorage.setItem('items', JSON.stringify(items));
+        const options = {
+            method: 'POST',
+            headers: { 'content-type': 'application/x-www-form-urlencoded' },
+            data: qs.stringify(addTask),
+            url: 'http://localhost:5000/task/insert',
+        };
+        axios(options);
+        this.getData(false);
+        // axios.post('http://localhost:5000/task/insert', { addTask })
+        //     .then(res => {
+        //         this.getDataFromDB();
+        //         console.log(res);
+        //         console.log(res.data);
+        //     })
     }
 
     handleEditTask(task) {
@@ -93,14 +111,24 @@ class TodoList extends Component {
         this.setState({ itemSelected, isShowAddForm: true });
     }
 
-    async populateTaskData() {
+    async getData(isShowAddForm) {
         const response = await fetch('task');
-        const data = await response.json();
-        this.setState({ items: data });
+        const items = await response.json();
+        !_.isUndefined(isShowAddForm) ? this.setState({ items, isShowAddForm }) : this.setState({ items });
+    }
+    
+    getDataFromDB () {
+        axios.get('http://localhost:5000/task')
+            .then(res => {
+                const items = res.data;
+                this.setState({ items });
+            })
+            .catch(error => console.log(error));
     }
 
     componentWillMount() {
-        this.populateTaskData();
+        this.getData();
+        // this.populateTaskData();
         //const dataFromLocalStorage = JSON.parse(localStorage.getItem('items'));
         //this.setState({ items: dataFromLocalStorage ?? [] });
     }

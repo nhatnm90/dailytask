@@ -7,13 +7,13 @@ namespace DailyTasks.DTOs
     public class TaskModel
     {
         public Guid Id { get; set; }
-
+        
         public string TaskName { get; set; }
-
+        
         public int Priority { get; set; }
         
         public string Comment { get; set; }
-
+        
         public bool IsDone { get; set; }
     }
 }
