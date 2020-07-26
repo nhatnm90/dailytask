@@ -1,13 +1,14 @@
-import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import registerServiceWorker from './registerServiceWorker';
+import './index.css';
+// import Introduce from './Introduce';
 import TodoList from './TodoList';
+// import ModalExample from './ModalExample';
+import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-    <TodoList />,
-    document.getElementById('root')
+  <TodoList />,
+  document.getElementById('root')
 );
 
-registerServiceWorker();
-
+serviceWorker.unregister();
