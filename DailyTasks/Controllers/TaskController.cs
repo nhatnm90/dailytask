@@ -29,27 +29,27 @@ namespace DailyTasks.Controllers
             return _taskService.GetAllTask();
         }
 
-        [HttpGet("GetById/{id}")]
+        [HttpGet("{id}")]
         public TaskModel GetById(Guid id)
         {
             return _taskService.GetTaskById(id);
         }
 
-        [HttpPost("Insert")]
+        [HttpPost]
         public ActionResult Insert(TaskModel taskModel)
         {
             _taskService.Add(taskModel);
             return CreatedAtAction("GetById", new { id = taskModel.Id }, taskModel);
         }
 
-        [HttpPut("Update/{id}")]
+        [HttpPut("{id}")]
         public ActionResult Update(Guid id, TaskModel taskModel)
         {
             var result = _taskService.Update(id, taskModel);
             return result ? CreatedAtAction("GetById", new { id = taskModel.Id }, taskModel) : throw new Exception();
         }
 
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("{id}")]
         public ActionResult Delete(Guid id)
         {   
             return Ok(_taskService.Delete(id));

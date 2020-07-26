@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import axios from 'axios';
-import qs from 'qs';
 import Title from './components/todoList/Title'
 import Control from './components/todoList/Control/Control'
 import Form from './components/todoList/Form'
 import TaskList from './components/todoList/TaskList'
 import ConfirmModal from './components/todoList/Control/ConfirmModal'
-// import mockItems from './mockData/tasks'
+import { taskService } from './services';
 
 class TodoList extends Component {
 
@@ -18,7 +16,7 @@ class TodoList extends Component {
             items: [],
             inputSearch: '',
             isShowAddForm: false,
-            sortName: 'level',
+            sortName: 'priority',
             sortDir: 'desc',
             itemSelected: null,
             showModal: false,
@@ -61,11 +59,9 @@ class TodoList extends Component {
     }
 
     deleteItem(id) {
-        let { items } = this.state;
-        _.remove(items, i => i.id === id);
-        this.setState({ items, deleteItem: null });
-
-        localStorage.setItem('items', JSON.stringify(items));
+        taskService.delete(id).then(() => {
+            this.getDataFromDB(false);
+        });
     }
 
     handleDeleteItem(id) {
@@ -75,62 +71,31 @@ class TodoList extends Component {
 
 
     handleAddTask(task) {
-        // let { items } = this.state;
-        // items.push(task);
-        // this.setState({ items, isShowAddForm: false });
-        //
-        // localStorage.setItem('items', JSON.stringify(items));
         const addTask = _.assign({}, { ...task }, { isDone: false });
-
-        const options = {
-            method: 'POST',
-            headers: { 'content-type': 'application/x-www-form-urlencoded' },
-            data: qs.stringify(addTask),
-            url: 'http://localhost:5000/task/insert',
-        };
-        axios(options);
-        this.getData(false);
-        // axios.post('http://localhost:5000/task/insert', { addTask })
-        //     .then(res => {
-        //         this.getDataFromDB();
-        //         console.log(res);
-        //         console.log(res.data);
-        //     })
+        taskService.insert(addTask).then(() => {
+            this.getDataFromDB();
+        })
     }
 
     handleEditTask(task) {
-        let { items } = this.state;
-        _.remove(items, i => i.id === task.id);
-        items.push(task);
-        this.setState({ items, isShowAddForm: false });
-
-        localStorage.setItem('items', JSON.stringify(items));
+        taskService.update(task).then(() => {
+            this.getDataFromDB();
+        });
     }
 
     handleBindingSelectedItem(itemSelected) {
         this.setState({ itemSelected, isShowAddForm: true });
     }
-
-    async getData(isShowAddForm) {
-        const response = await fetch('task');
-        const items = await response.json();
-        !_.isUndefined(isShowAddForm) ? this.setState({ items, isShowAddForm }) : this.setState({ items });
-    }
     
     getDataFromDB () {
-        axios.get('http://localhost:5000/task')
-            .then(res => {
-                const items = res.data;
-                this.setState({ items });
-            })
-            .catch(error => console.log(error));
+        taskService.getAll()
+            .then(data => {
+                this.setState({ items: data, isShowAddForm: false });
+            });
     }
 
     componentWillMount() {
-        this.getData();
-        // this.populateTaskData();
-        //const dataFromLocalStorage = JSON.parse(localStorage.getItem('items'));
-        //this.setState({ items: dataFromLocalStorage ?? [] });
+        this.getDataFromDB();
     }
 
     componentDidMount() {
@@ -144,7 +109,7 @@ class TodoList extends Component {
             addForm = <Form itemSelected={itemSelected} onAddTask={this.handleAddTask} onEditTask={this.handleEditTask} onClickCancel={this.handleToogleAddForm} />;
         }
 
-        items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.name), _.toLower(inputSearch))) : items;
+        items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.taskName), _.toLower(inputSearch))) : items;
         items = _.orderBy(items,[sortName],[sortDir]);
 
         return (

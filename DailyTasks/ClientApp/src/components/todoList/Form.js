@@ -31,9 +31,9 @@ class Form extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps !== null) {
             const id = _.get(nextProps, 'itemSelected.id');
-            const { itemSelected: { taskName, level } } = nextProps;
+            const { itemSelected: { taskName, priority } } = nextProps;
             this.setState({
-                id, taskName, level
+                id, taskName, priority
             });
         }
     }
