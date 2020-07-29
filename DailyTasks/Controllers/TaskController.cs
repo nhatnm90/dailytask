@@ -28,6 +28,12 @@ namespace DailyTasks.Controllers
         {
             return _taskService.GetAllTask();
         }
+        
+        [HttpGet("archive")]
+        public IEnumerable<TaskModel> GetArchive()
+        {
+            return _taskService.GetArchiveTask();
+        }
 
         [HttpGet("{id}")]
         public TaskModel GetById(Guid id)

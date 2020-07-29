@@ -8,10 +8,11 @@ class TaskList extends Component {
             let item = Object.assign({},{ ...row, index });
             return <TaskRow onEditItem={this.props.editItem} openConfirmModal={this.props.openConfirmModal} key={index} val={item} />
         });
+        const { listName, listStyle } = this.props;
 
         return (
-            <div className="panel panel-success">
-                <div className="panel-heading">List task</div>
+            <div className={listStyle}>
+                <div className="panel-heading">{listName}</div>
                 <table className="table table-striped">
                     <thead>
                         <tr>

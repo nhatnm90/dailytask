@@ -41,6 +41,11 @@ namespace DailyTasks.Services
         {
             return _context.TaskModels.Where(x => !x.IsDone).ToList();
         }
+        
+        public IEnumerable<TaskModel> GetArchiveTask()
+        {
+            return _context.TaskModels.Where(x => x.IsDone).ToList();
+        }
 
         public TaskModel GetTaskById(Guid id)
         {

@@ -32,10 +32,8 @@ class Control extends Component {
                 {/* ADD NEW TASK BUTTON */}
                 <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5">		
                     { button }	
-                    {/* {this.showControllButton} */}
-                    {/* <button type="button" className="btn btn-info btn-block" onClick={this.props.onClick}>Add new task</button>				 */}
                 </div>
-              </div>
+            </div>
         );
     }
 }

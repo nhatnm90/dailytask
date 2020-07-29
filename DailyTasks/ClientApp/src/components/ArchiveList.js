@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import Title from './components/todoList/Title'
-import Control from './components/todoList/Control/Control'
-import Form from './components/todoList/Form'
-import TaskList from './components/todoList/TaskList'
-import ConfirmModal from './components/todoList/Control/ConfirmModal'
-import { taskService } from './services';
+import Title from './Title'
+import Tabs from './control/Tabs'
+import Control from './control/Control'
+import Form from './control/Form'
+import TaskList from './gridData/TaskList'
+import ConfirmModal from './control/ConfirmModal'
+import { taskService } from '../services';
 
-class TodoList extends Component {
+class ArchiveList extends Component {
 
     constructor(props) {
         super(props);
@@ -88,7 +89,7 @@ class TodoList extends Component {
     }
     
     getDataFromDB () {
-        taskService.getAll()
+        taskService.getArchive()
             .then(data => {
                 this.setState({ items: data, isShowAddForm: false });
             });
@@ -111,10 +112,13 @@ class TodoList extends Component {
 
         items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.taskName), _.toLower(inputSearch))) : items;
         items = _.orderBy(items,[sortName],[sortDir]);
+        const listName = 'Archive tasks';
+        const listStyle = 'panel panel-default';
 
         return (
             <div>
                 <Title />
+                <Tabs />
                 <Control
                     onClick = {this.handleToogleAddForm}
                     isShowAddForm = {isShowAddForm}
@@ -122,11 +126,17 @@ class TodoList extends Component {
                     onClickSort = {this.handleSort}
                 />
                 { addForm }
-                <TaskList editItem={this.handleBindingSelectedItem} openConfirmModal={this.handleOpenConfirmModal} items={items}/>
+                <TaskList
+                    editItem={this.handleBindingSelectedItem}
+                    openConfirmModal={this.handleOpenConfirmModal}
+                    items={items}
+                    listName={listName}
+                    listStyle={listStyle}
+                />
                 <ConfirmModal show={showModal} deletedItem={deletedItem ?? {}} handleCloseModal={this.handleCloseModal} handleDeleteItem={this.handleDeleteItem} />
             </div>
         );
     }
 }
 
-export default TodoList;
+export default ArchiveList;

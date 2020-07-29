@@ -11,6 +11,8 @@ namespace DailyTasks.Services
     public interface ITaskService
     {
         IEnumerable<TaskModel> GetAllTask();
+        
+        IEnumerable<TaskModel> GetArchiveTask();
 
         TaskModel GetTaskById(Guid id);
 
