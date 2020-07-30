@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 class TaskItem extends Component {
 
@@ -13,13 +14,14 @@ class TaskItem extends Component {
     }
 
     render() {
-        const { val: { index, taskName, priority, id } } = this.props;
+        const { val: { index, taskName, priority, id, createdAt } } = this.props;
         const rowId = `tr_${id}`;
         return (
             <tr id={rowId}>
                 <th scope="row">{index + 1}</th>    
                 <td>{taskName}</td>
                 <td>{this.generateLevel(priority)}</td>
+                <td>{moment(createdAt).format('MMM DD HH:mm')}</td>
                 <td>
                     <button type="button" className="btn btn-danger" onClick={() => this.props.onEditItem({ id, taskName, priority})}>Edit</button>
                     <span> </span>

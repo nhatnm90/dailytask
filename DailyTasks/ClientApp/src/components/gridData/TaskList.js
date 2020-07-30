@@ -19,6 +19,7 @@ class TaskList extends Component {
                             <th scope="col">#</th>
                             <th scope="col">Task</th>
                             <th scope="col">Priority</th>
+                            <th scope="col">Created at</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
