@@ -15,5 +15,7 @@ namespace DailyTasks.DTOs
         public string Comment { get; set; }
         
         public bool IsDone { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

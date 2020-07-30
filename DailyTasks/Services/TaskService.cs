@@ -21,20 +21,18 @@ namespace DailyTasks.Services
 
         public void Add(TaskModel taskModel)
         {
-            _context.Add(taskModel);
+            taskModel.CreatedAt = DateTime.Now;
+            _context.TaskModels.Add(taskModel);
             _context.SaveChanges();
         }
 
         public bool Delete(Guid id)
         {
             var task = this.GetTaskById(id);
-            if (task != null)
-            {
-                _context.Remove(task);
-                _context.SaveChanges();
-                return true;
-            }
-            return false;
+            if (task == null) return false;
+            _context.TaskModels.Remove(task);
+            _context.SaveChanges();
+            return true;
         }
 
         public IEnumerable<TaskModel> GetAllTask()
