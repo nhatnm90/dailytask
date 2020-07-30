@@ -1,38 +1,34 @@
 import React, { Component } from 'react';
+import { constants } from '../../utils/constant';
 
 class Tabs extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sortName: 'priority',
-            sortDir: 'desc'
+            id: '',
+            taskName: '',
+            priority: 0
         };
-        this.handleSort = this.handleSort.bind(this);
-    } 
-
-    handleSort(sortName, sortDir){
-        this.setState({
-            sortName, sortDir
-        });
-        this.props.onClickSort(sortName, sortDir);
+        
+        this.handleChangeTab = this.handleChangeTab.bind(this);
     }
 
-    buildMenu() {
-      const currentTab =  window.location.pathname
-      const menu = [ 
-        { name: "Current", path: '/'},
-        { name: "Archive", path: '/archive'}
-      ];
-
-      return menu.map((item, index) => {
-        const { name, path } = item;
-        const className = path === currentTab ? 'active' : '';
-        return <li key={index} role='presentation' className={className}><a href={path}>{name}</a></li>
+    handleChangeTab(index) {
+        console.log(`Tab ${index} was selected`);
+    }
+    
+    buildMenu(tabSelected, onChangeTab) {
+      return constants.TABS .map((item) => {
+        const { name, index } = item;
+        const className = index === tabSelected ? 'active' : '';
+        return <li key={index} role='presentation' className={className}>
+            <a href='javascript:void(0)' onClick={() => this.props.onChangeTab(index)}>{name}</a></li>
       });
     }
 
     render() {
-        const menu = this.buildMenu();
+        const { tabSelected } = this.props;
+        const menu = this.buildMenu(tabSelected);
         return (
           <ul className="nav nav-tabs">
             {menu}

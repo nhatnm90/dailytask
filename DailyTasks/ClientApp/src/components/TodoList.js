@@ -21,7 +21,11 @@ class TodoList extends Component {
             sortDir: 'desc',
             itemSelected: null,
             showModal: false,
-            deletedItem: null
+            deletedItem: null,
+            tabSelected: 0,
+            listName: 'Current tasks',
+            listStyle: 'panel panel-success'
+            
         };
 
         this.handleToogleAddForm = this.handleToogleAddForm.bind(this);
@@ -34,6 +38,7 @@ class TodoList extends Component {
         this.handleOpenConfirmModal = this.handleOpenConfirmModal.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
+        this.handleChangeTab = this.handleChangeTab.bind(this);
     }
 
     handleToogleAddForm() {
@@ -61,7 +66,7 @@ class TodoList extends Component {
 
     deleteItem(id) {
         taskService.delete(id).then(() => {
-            this.getDataFromDB(false);
+            this.getCurrentTaskFromDB(false);
         });
     }
 
@@ -69,18 +74,17 @@ class TodoList extends Component {
         this.deleteItem(id);
         this.handleCloseModal();
     }
-
-
+    
     handleAddTask(task) {
         const addTask = _.assign({}, { ...task }, { isDone: false });
         taskService.insert(addTask).then(() => {
-            this.getDataFromDB();
+            this.getCurrentTaskFromDB();
         })
     }
 
     handleEditTask(task) {
         taskService.update(task).then(() => {
-            this.getDataFromDB();
+            this.getCurrentTaskFromDB();
         });
     }
 
@@ -88,37 +92,57 @@ class TodoList extends Component {
         this.setState({ itemSelected, isShowAddForm: true });
     }
 
-    getDataFromDB () {
+    getCurrentTaskFromDB () {
         taskService.getAll()
             .then(data => {
                 this.setState({ items: data, isShowAddForm: false });
             });
     }
 
-    componentWillMount() {
-        this.getDataFromDB();
+    getArchiveTaskFromDB () {
+        taskService.getArchive()
+            .then(data => {
+                this.setState({ items: data, isShowAddForm: false });
+            });
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        this.getCurrentTaskFromDB();
+    }
+
+    handleChangeTab(tabSelected) {
+        let listName = '';
+        let listStyle = '';
+        if (tabSelected === 0) {
+            this.getCurrentTaskFromDB();
+            listName = 'Current tasks';
+            listStyle = 'panel panel-success';
+        } else if (tabSelected === 1) {
+            listName = 'Archive tasks';
+            listStyle = 'panel panel-default';
+            this.getArchiveTaskFromDB();
+        }
+        this.setState({
+            tabSelected, listName, listStyle
+        });
     }
 
     render() {
         let addForm = null;
 
-        let { isShowAddForm, items, sortDir, sortName, inputSearch, itemSelected, showModal, deletedItem } = this.state;
+        let { isShowAddForm, items, sortDir, sortName, inputSearch, itemSelected,
+            showModal, deletedItem, tabSelected, listName, listStyle } = this.state;
         if (isShowAddForm) {
             addForm = <Form itemSelected={itemSelected} onAddTask={this.handleAddTask} onEditTask={this.handleEditTask} onClickCancel={this.handleToogleAddForm} />;
         }
 
         items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.taskName), _.toLower(inputSearch))) : items;
         items = _.orderBy(items,[sortName],[sortDir]);
-        const listName = 'Current tasks';
-        const listStyle = 'panel panel-success';
 
         return (
             <div>
                 <Title />
-                <Tabs />
+                <Tabs tabSelected={this.state.tabSelected} onChangeTab={this.handleChangeTab} />
                 <Control
                     onClick = {this.handleToogleAddForm}
                     isShowAddForm = {isShowAddForm}
