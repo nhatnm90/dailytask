@@ -13,7 +13,7 @@ class TodoList extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { 
+        this.state = {
             items: [],
             inputSearch: '',
             isShowAddForm: false,
@@ -87,7 +87,7 @@ class TodoList extends Component {
     handleBindingSelectedItem(itemSelected) {
         this.setState({ itemSelected, isShowAddForm: true });
     }
-    
+
     getDataFromDB () {
         taskService.getAll()
             .then(data => {
@@ -112,7 +112,7 @@ class TodoList extends Component {
 
         items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.taskName), _.toLower(inputSearch))) : items;
         items = _.orderBy(items,[sortName],[sortDir]);
-        const listName = 'Archive tasks';
+        const listName = 'Current tasks';
         const listStyle = 'panel panel-success';
 
         return (

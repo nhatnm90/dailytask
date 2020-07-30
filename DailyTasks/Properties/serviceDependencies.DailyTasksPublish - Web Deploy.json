@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Sql/servers/automationhndb/databases/DailyTasks",
+      "type": "mssql.azure",
+      "connectionId": "AzureDBContext",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
