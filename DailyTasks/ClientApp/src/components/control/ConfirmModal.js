@@ -3,12 +3,14 @@ import { Button, Modal } from 'react-bootstrap'
 
 class ConfirmModal extends Component {
 
-  confirm(id) {
-    this.props.handleDeleteItem(id);
-  }
-
   render() {
-    const { show, deletedItem: { taskName, id } } = this.props;
+    const { show, deletedItem: { taskName, id }, tabSelected }  = this.props;
+    let confirmMessage = null;
+    if (tabSelected === 0) {
+        confirmMessage = (<p>Mark <b>{ taskName }</b> as done?</p>);
+    } else if (tabSelected === 1) {
+        confirmMessage = (<p>Are you sure to delete <b>{ taskName }</b>?</p>);
+    }
     return (
       <Modal
         backdrop='static'
@@ -24,7 +26,7 @@ class ConfirmModal extends Component {
             <Modal.Title>Confirm</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Mark <b>{ taskName }</b> as done?
+            {confirmMessage}
         </Modal.Body>
         <Modal.Footer>
             <Button variant='outline-info' onClick={this.props.handleCloseModal}>Cancel</Button>

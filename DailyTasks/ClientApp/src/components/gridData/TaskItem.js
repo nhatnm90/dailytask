@@ -14,7 +14,17 @@ class TaskItem extends Component {
     }
 
     render() {
-        const { val: { index, taskName, priority, id, createdAt } } = this.props;
+        const { val: { index, taskName, priority, id, createdAt }, tabSelected } = this.props;
+        let actionControl = null;
+        if (tabSelected === 0) {
+            actionControl = (<div>
+                <button type="button" className="btn btn-danger" onClick={() => this.props.onEditItem({ id, taskName, priority})}>Edit</button>
+                <span> </span>
+                <button type="button" className="btn btn-success" onClick={() => this.props.openConfirmModal({ id, taskName})}>Mark as done</button>
+            </div>);
+        } else {
+            actionControl = (<button type="button" className="btn btn-danger" onClick={() => this.props.openConfirmModal({ id, taskName})}>Delete</button>);
+        }
         const rowId = `tr_${id}`;
         return (
             <tr id={rowId}>
@@ -23,9 +33,7 @@ class TaskItem extends Component {
                 <td>{this.generateLevel(priority)}</td>
                 <td>{moment(createdAt).format('MMM DD HH:mm')}</td>
                 <td>
-                    <button type="button" className="btn btn-danger" onClick={() => this.props.onEditItem({ id, taskName, priority})}>Edit</button>
-                    <span> </span>
-                    <button type="button" className="btn btn-success" onClick={() => this.props.openConfirmModal({ id, taskName})}>Mark as done</button>
+                    {actionControl}
                 </td>
             </tr>
         );

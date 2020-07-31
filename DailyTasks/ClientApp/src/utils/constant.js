@@ -1,6 +1,6 @@
 export const constants = {
     API_URL: 'https://dailytaskspublish.azurewebsites.net',
-    API_URL_1: 'http://localhost:5000',
+    API_URL_: 'http://localhost:5000',
     TABS: [
         {
             index: 0,
@@ -8,7 +8,7 @@ export const constants = {
         },
         {
             index: 1,
-            name: 'Archive'
+            name: 'Archived'
         }
     ]
 };

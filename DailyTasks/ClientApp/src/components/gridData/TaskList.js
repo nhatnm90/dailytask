@@ -4,11 +4,12 @@ import TaskRow from './TaskItem';
 class TaskList extends Component {
 
     render() {
+        const { listName, listStyle, tabSelected } = this.props;
+        
         const itemEle = this.props.items.map((row, index) => {
             let item = Object.assign({},{ ...row, index });
-            return <TaskRow onEditItem={this.props.editItem} openConfirmModal={this.props.openConfirmModal} key={index} val={item} />
+            return <TaskRow tabSelected={tabSelected} onEditItem={this.props.editItem} openConfirmModal={this.props.openConfirmModal} key={index} val={item} />
         });
-        const { listName, listStyle } = this.props;
 
         return (
             <div className={listStyle}>

@@ -21,6 +21,8 @@ namespace DailyTasks.Services
         void Add(TaskModel taskModel);
 
         bool Delete(Guid id);
+        
+        bool Archive(Guid id);
 
     }
 }

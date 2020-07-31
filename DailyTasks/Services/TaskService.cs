@@ -35,6 +35,15 @@ namespace DailyTasks.Services
             return true;
         }
 
+        public bool Archive(Guid id)
+        {
+            var task = this.GetTaskById(id);
+            if (task == null) return false;
+            task.IsDone = true;
+            _context.SaveChanges();
+            return true;
+        }
+
         public IEnumerable<TaskModel> GetAllTask()
         {
             return _context.TaskModels.Where(x => !x.IsDone).ToList();

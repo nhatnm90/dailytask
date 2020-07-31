@@ -6,7 +6,8 @@ export const taskService = {
     insert,
     update,
     delete: _delete,
-    getArchive
+    getArchive,
+    archive
 };
 
 function getAll() {
@@ -28,6 +29,13 @@ function getById(id) {
         method: 'GET'
     };
     return fetch(`${constants.API_URL}/task/${id}`, requestOptions).then(handleResponse);
+}
+
+function archive(id) {
+    const requestOptions = {
+        method: 'GET'
+    };
+    return fetch(`${constants.API_URL}/task/${id}/archive`, requestOptions).then(handleResponse);
 }
 
 function insert(task) {

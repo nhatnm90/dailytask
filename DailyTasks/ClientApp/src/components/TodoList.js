@@ -66,12 +66,22 @@ class TodoList extends Component {
 
     deleteItem(id) {
         taskService.delete(id).then(() => {
-            this.getCurrentTaskFromDB(false);
+            this.getArchiveTaskFromDB();
+        });
+    }
+
+    archiveItem(id) {
+        taskService.archive(id).then(() => {
+            this.getCurrentTaskFromDB();
         });
     }
 
     handleDeleteItem(id) {
-        this.deleteItem(id);
+        if (this.state.tabSelected === 0) {
+            this.archiveItem(id);
+        } else if (this.state.tabSelected === 1) {
+            this.deleteItem(id);
+        }
         this.handleCloseModal();
     }
     
@@ -148,16 +158,18 @@ class TodoList extends Component {
                     isShowAddForm = {isShowAddForm}
                     onClickSearch = {this.handleSearch}
                     onClickSort = {this.handleSort}
+                    tabSelected={tabSelected}
                 />
                 { addForm }
                 <TaskList
                     editItem={this.handleBindingSelectedItem}
                     openConfirmModal={this.handleOpenConfirmModal}
                     items={items}
+                    tabSelected={tabSelected}
                     listName={listName}
                     listStyle={listStyle}
                 />
-                <ConfirmModal show={showModal} deletedItem={deletedItem ?? {}} handleCloseModal={this.handleCloseModal} handleDeleteItem={this.handleDeleteItem} />
+                <ConfirmModal tabSelected={tabSelected} show={showModal} deletedItem={deletedItem ?? {}} handleCloseModal={this.handleCloseModal} handleDeleteItem={this.handleDeleteItem} />
             </div>
         );
     }

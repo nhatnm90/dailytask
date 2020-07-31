@@ -60,5 +60,11 @@ namespace DailyTasks.Controllers
         {   
             return Ok(_taskService.Delete(id));
         }
+        
+        [HttpGet("{id}/archive")]
+        public ActionResult Archive(Guid id)
+        {
+            return Ok(_taskService.Archive(id));
+        }
     }
 }

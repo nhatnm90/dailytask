@@ -8,22 +8,22 @@ class Control extends Component {
         super(props);
 
         this.handleToogle = this.handleToogle.bind(this);
-        this.genetateAddButton = this.genetateAddButton.bind(this);
+        this.generateAddButton = this.generateAddButton.bind(this);
     }
 
     handleToogle() {
         this.props.onClick();
     }
 
-    genetateAddButton() {
+    generateAddButton() {
         if (this.props.isShowAddForm) {
             return (<button type="button" className="btn btn-default btn-block" onClick={this.handleToogle}>Cancel</button>);
         }
-        return (<button id="btnAddNewTask" type="button" className="btn btn-info btn-block" onClick={this.handleToogle}>Add new task</button>);	
+        return (<button id="btnAddNewTask" disabled={this.props.tabSelected === 1} type="button" className="btn btn-info btn-block" onClick={this.handleToogle}>Add new task</button>);	
     }
 
     render() {
-        let button = this.genetateAddButton();
+        let button = this.generateAddButton();
         return (
             <div className="row">
               <Search onClickSearch={this.props.onClickSearch} />
