@@ -62,16 +62,13 @@ namespace DailyTasks.Services
         public bool Update(Guid id, TaskModel taskModel)
         {
             var task = this.GetTaskById(id);
-            if (task != null)
-            {
-                task.IsDone = taskModel.IsDone;
-                task.Priority = taskModel.Priority;
-                task.TaskName = taskModel.TaskName;
-                task.Comment = taskModel.Comment;
-                _context.SaveChanges();
-                return true;
-            }
-            return false;
+            if (task == null) return false;
+            task.IsDone = taskModel.IsDone;
+            task.Priority = taskModel.Priority;
+            task.TaskName = taskModel.TaskName;
+            task.Comment = taskModel.Comment;
+            _context.SaveChanges();
+            return true;
         }
     }
 }

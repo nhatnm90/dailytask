@@ -29,8 +29,8 @@ class ConfirmModal extends Component {
             {confirmMessage}
         </Modal.Body>
         <Modal.Footer>
-            <Button variant='outline-info' onClick={this.props.handleCloseModal}>Cancel</Button>
-            <Button variant='success' onClick={() => this.props.handleDeleteItem(id)}>OK</Button>
+            <button className='btn btn-outline-secondary' onClick={this.props.handleCloseModal}>Cancel</button>
+            <button className='btn btn-pink-1' onClick={() => this.props.handleDeleteItem(id)}>OK</button>
         </Modal.Footer>
     </Modal>
     );

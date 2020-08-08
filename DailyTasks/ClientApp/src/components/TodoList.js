@@ -7,6 +7,7 @@ import Form from './control/Form'
 import TaskList from './gridData/TaskList'
 import ConfirmModal from './control/ConfirmModal'
 import { taskService } from '../services';
+import TaskModal from "./control/TaskModal";
 
 class TodoList extends Component {
 
@@ -29,7 +30,7 @@ class TodoList extends Component {
             
         };
 
-        this.handleToogleAddForm = this.handleToogleAddForm.bind(this);
+        this.handleToggleAddForm = this.handleToggleAddForm.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleSort = this.handleSort.bind(this);
         this.handleDeleteItem = this.handleDeleteItem.bind(this);
@@ -42,7 +43,7 @@ class TodoList extends Component {
         this.handleChangeTab = this.handleChangeTab.bind(this);
     }
 
-    handleToogleAddForm() {
+    handleToggleAddForm() {
         this.setState({
             itemSelected: null,
             isShowAddForm: !this.state.isShowAddForm
@@ -78,6 +79,7 @@ class TodoList extends Component {
     }
 
     handleDeleteItem(id) {
+        this.setState({ showLoading: true });
         if (this.state.tabSelected === 0) {
             this.archiveItem(id);
         } else if (this.state.tabSelected === 1) {
@@ -87,6 +89,7 @@ class TodoList extends Component {
     }
     
     handleAddTask(task) {
+        // this.setState({ showLoading: true });
         const addTask = _.assign({}, { ...task }, { isDone: false });
         taskService.insert(addTask).then(() => {
             this.getCurrentTaskFromDB();
@@ -94,6 +97,7 @@ class TodoList extends Component {
     }
 
     handleEditTask(task) {
+        // this.setState({ showLoading: true });
         taskService.update(task).then(() => {
             this.getCurrentTaskFromDB();
         });
@@ -145,9 +149,6 @@ class TodoList extends Component {
 
         let { isShowAddForm, items, sortDir, sortName, inputSearch, itemSelected,
             showModal, deletedItem, tabSelected, listName, listStyle, showLoading } = this.state;
-        if (isShowAddForm) {
-            addForm = <Form itemSelected={itemSelected} onAddTask={this.handleAddTask} onEditTask={this.handleEditTask} onClickCancel={this.handleToogleAddForm} />;
-        }
 
         items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.taskName), _.toLower(inputSearch))) : items;
         items = _.orderBy(items,[sortName],[sortDir]);
@@ -159,13 +160,13 @@ class TodoList extends Component {
                 <Title />
                 <Tabs tabSelected={this.state.tabSelected} onChangeTab={this.handleChangeTab} />
                 <Control
-                    onClick = {this.handleToogleAddForm}
+                    onClick = {this.handleToggleAddForm}
                     isShowAddForm = {isShowAddForm}
                     onClickSearch = {this.handleSearch}
                     onClickSort = {this.handleSort}
                     tabSelected={tabSelected}
                 />
-                { addForm }
+                {/*{ addForm }*/}
                 <TaskList
                     editItem={this.handleBindingSelectedItem}
                     openConfirmModal={this.handleOpenConfirmModal}
@@ -175,7 +176,18 @@ class TodoList extends Component {
                     listStyle={listStyle}
                     showLoading={showLoading}
                 />
-                <ConfirmModal tabSelected={tabSelected} show={showModal} deletedItem={deletedItem ?? {}} handleCloseModal={this.handleCloseModal} handleDeleteItem={this.handleDeleteItem} />
+                <ConfirmModal
+                    tabSelected={tabSelected}
+                    show={showModal} deletedItem={deletedItem ?? {}}
+                    handleCloseModal={this.handleCloseModal}
+                    handleDeleteItem={this.handleDeleteItem} />
+                <TaskModal
+                    show={isShowAddForm}
+                    itemSelected={itemSelected}
+                    onAddTask={this.handleAddTask}
+                    onEditTask={this.handleEditTask}
+                    onClickCancel={this.handleToggleAddForm}
+                />
             </div>
         );
     }

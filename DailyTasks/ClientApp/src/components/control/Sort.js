@@ -22,7 +22,7 @@ class Sort extends Component {
         return (
             <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4 input-group mb-4">
                 <div className="input-group-prepend">
-                    <button type="button" className="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" className="btn btn-pink-1 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Sort by 
                     </button>
                     <div className="dropdown-menu">

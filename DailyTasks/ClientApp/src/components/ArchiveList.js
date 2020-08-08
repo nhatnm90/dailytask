@@ -7,6 +7,7 @@ import Form from './control/Form'
 import TaskList from './gridData/TaskList'
 import ConfirmModal from './control/ConfirmModal'
 import { taskService } from '../services';
+import TaskModal from "./control/TaskModal";
 
 class ArchiveList extends Component {
 
@@ -24,7 +25,7 @@ class ArchiveList extends Component {
             deletedItem: null
         };
 
-        this.handleToogleAddForm = this.handleToogleAddForm.bind(this);
+        this.handleToggleAddForm = this.handleToggleAddForm.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleSort = this.handleSort.bind(this);
         this.handleDeleteItem = this.handleDeleteItem.bind(this);
@@ -36,7 +37,7 @@ class ArchiveList extends Component {
         this.deleteItem = this.deleteItem.bind(this);
     }
 
-    handleToogleAddForm() {
+    handleToggleAddForm() {
         this.setState({
             itemSelected: null,
             isShowAddForm: !this.state.isShowAddForm
@@ -106,9 +107,9 @@ class ArchiveList extends Component {
         let addForm = null;
 
         let { isShowAddForm, items, sortDir, sortName, inputSearch, itemSelected, showModal, deletedItem } = this.state;
-        if (isShowAddForm) {
-            addForm = <Form itemSelected={itemSelected} onAddTask={this.handleAddTask} onEditTask={this.handleEditTask} onClickCancel={this.handleToogleAddForm} />;
-        }
+        // if (isShowAddForm) {
+        //     addForm = <Form itemSelected={itemSelected} onAddTask={this.handleAddTask} onEditTask={this.handleEditTask} onClickCancel={this.handleToggleAddForm} />;
+        // }
 
         items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.taskName), _.toLower(inputSearch))) : items;
         items = _.orderBy(items,[sortName],[sortDir]);
@@ -120,12 +121,12 @@ class ArchiveList extends Component {
                 <Title />
                 <Tabs />
                 <Control
-                    onClick = {this.handleToogleAddForm}
+                    onClick = {this.handleToggleAddForm()}
                     isShowAddForm = {isShowAddForm}
                     onClickSearch = {this.handleSearch}
                     onClickSort = {this.handleSort}
                 />
-                { addForm }
+                {/*{ addForm }*/}
                 <TaskList
                     editItem={this.handleBindingSelectedItem}
                     openConfirmModal={this.handleOpenConfirmModal}
@@ -133,7 +134,19 @@ class ArchiveList extends Component {
                     listName={listName}
                     listStyle={listStyle}
                 />
-                <ConfirmModal show={showModal} deletedItem={deletedItem ?? {}} handleCloseModal={this.handleCloseModal} handleDeleteItem={this.handleDeleteItem} />
+                <ConfirmModal
+                    show={showModal} deletedItem={deletedItem ?? {}}
+                    handleCloseModal={this.handleCloseModal}
+                    handleDeleteItem={this.handleDeleteItem}
+                />
+                <TaskModal
+                    show={isShowAddForm}
+                    itemSelected={itemSelected}
+                    onAddTask={this.handleAddTask}
+                    onEditTask={this.handleEditTask}
+                    onClickCancel={this.handleToggleAddForm}
+                />
+                
             </div>
         );
     }

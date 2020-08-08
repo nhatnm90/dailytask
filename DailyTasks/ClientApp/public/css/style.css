@@ -52,3 +52,38 @@ div.page-header {
 #spSort {
     text-align: center;
 }
+
+button.submit-form {
+    margin-right: 10px;
+}
+
+button.btn-pink-1 {
+    color: #fff;
+    background-color: #eac1f5;
+    border-color: #dc8fe6;
+}
+
+button.btn-pink-1:hover {
+    color: #fff;
+    background-color: #dc8fe6;
+    border-color: #dc8fe6;
+}
+
+tr.table-pink-1 {
+    color: #fff;
+    background-color: #eac1f5;
+}
+
+span.level-pink {
+    color: #fff;
+    background-color: #eac1f5;
+}
+
+li.nav-item a {
+    color: #dc8fe6;
+}
+
+tr:hover {
+    background-color: #f9e2ff;
+    color: #777777;
+}

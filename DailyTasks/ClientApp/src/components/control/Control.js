@@ -7,19 +7,21 @@ class Control extends Component {
     constructor(props) {
         super(props);
 
-        this.handleToogle = this.handleToogle.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
         this.generateAddButton = this.generateAddButton.bind(this);
     }
 
-    handleToogle() {
+    handleToggle() {
         this.props.onClick();
     }
 
     generateAddButton() {
         if (this.props.isShowAddForm) {
-            return (<button type="button" className="btn btn-default btn-block" onClick={this.handleToogle}>Cancel</button>);
+            return (<button type="button" className="btn btn-default btn-block" onClick={this.handleToggle}>Cancel</button>);
         }
-        return (<button id="btnAddNewTask" disabled={this.props.tabSelected === 1} type="button" className="btn btn-success btn-block" onClick={this.handleToogle}>Add new task</button>);	
+        return (<button id="btnAddNewTask" disabled={this.props.tabSelected === 1} type="button" className="btn btn-pink-1 btn-block" onClick={this.handleToggle}>
+            <i className="fa fa-plus" aria-hidden="true" /> Task
+        </button>);	
     }
 
     render() {

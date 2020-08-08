@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { get, isEmpty, parseInt } from 'lodash';
+import {Button, Modal} from "react-bootstrap";
 const uuidv4 = require('uuid/v4')
 
 class Form extends Component {
@@ -10,7 +11,9 @@ class Form extends Component {
         this.state = {
             id: '',
             taskName: '',
-            priority: 0
+            priority: 0,
+            comment: '',
+            isLoadingButton: false
         };
 
         this.handleCancel = this.handleCancel.bind(this);
@@ -21,9 +24,9 @@ class Form extends Component {
     componentWillMount() {
         const id = get(this.props, 'itemSelected.id', '');
         if (!isEmpty(id)) {
-            const { taskName, priority } = get(this.props, 'itemSelected', {});
+            const { taskName, priority, comment } = get(this.props, 'itemSelected', {});
             this.setState({
-                id, taskName, priority
+                id, taskName, priority, comment
             });
         }
     }
@@ -31,19 +34,20 @@ class Form extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps !== null) {
             const id = _.get(nextProps, 'itemSelected.id');
-            const { itemSelected: { taskName, priority } } = nextProps;
+            const { itemSelected: { taskName, priority, comment } } = nextProps;
             this.setState({
-                id, taskName, priority
+                id, taskName, priority, comment
             });
         }
     }
 
     handleSubmit(event) {
-        const { id, taskName, priority } = this.state;
+        this.setState({ isLoadingButton: true })
+        const { id, taskName, priority, comment } = this.state;
         if (isEmpty(id)) {
-            this.props.onAddTask({ taskName, priority: parseInt(priority), id: uuidv4()});
+            this.props.onAddTask({ taskName, priority: parseInt(priority), id: uuidv4(), comment });
         } else {
-            this.props.onEditTask({ taskName, priority: parseInt(priority), id});
+            this.props.onEditTask({ taskName, priority: parseInt(priority), id, comment });
         }
         event.preventDefault();
     }
@@ -52,42 +56,48 @@ class Form extends Component {
         this.setState({
             id: '',
             taskName: '',
-            priority: 0
+            priority: 0,
+            comment: ''
         });
         this.props.onClickCancel();
     }
 
     handleInputChange(event) {
         const { target: { name, value } } = event;
-        // const value = target.name === 'isGoing' ? target.checked : target.value;
-    
         this.setState({
           [name]: value
         });
     }
 
     render() {
-        const { taskName, priority } = this.state;
+        const { taskName, priority, comment, isLoadingButton } = this.state;
         return (
-            <div className="row">
-                <div className="col-md-offset-7 col-md-5">					
-                  <form  onSubmit={this.handleSubmit} className="form-inline">
-                    <div className="form-group">
-                      {/* <label className="sr-only" htmlFor>label</label> */}
-                      <input id="txtTaskName" name="taskName" type="text" className="form-control" placeholder="Task name" value={taskName} onChange={this.handleInputChange} />
-                    </div>
-                    <div className="form-group">
-                        <select  placeholder="Task priority" name="priority" value={parseInt(priority)} id="input" className="form-control" required="required" onChange={this.handleInputChange}>
-                            <option value={0}>Low</option>
-                            <option value={1}>Medium</option>
-                            <option value={2}>High</option>
-                        </select>
-                    </div>
-                    <button id="btnSubmitTask" type="submit" className="btn btn-primary">Submit</button>
-                    <button onClick={this.handleCancel} type="button" className="btn btn-danger">Cancel</button>
-                  </form>
+            <form>
+                <div className="form-group">
+                    <label htmlFor="txtTaskName">Task name</label>
+                    <input id="txtTaskName" name="taskName" type="text" className="form-control" value={taskName} onChange={this.handleInputChange} />
                 </div>
-              </div>
+                <div className="form-group">
+                    <label htmlFor="ddlPriority">Priority</label>
+                    <select id='ddlPriority' name="priority" value={parseInt(priority)} className="form-control" required="required" onChange={this.handleInputChange}>
+                        <option value={0}>Low</option>
+                        <option value={1}>Medium</option>
+                        <option value={2}>High</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="textAreaComment">Comment</label>
+                    <textarea name="comment" className="form-control" id="textAreaComment" rows={4} onChange={this.handleInputChange} value={comment} />
+                </div>
+                { !isLoadingButton ? 
+                    <button id='btnSubmitTask' type="submit" onClick={this.handleSubmit} className="btn btn-pink-1 submit-form">Submit</button> :
+                    <button className="btn btn-pink-1 submit-form" type="button" disabled>
+                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+                        Submitting...
+                    </button>
+                }
+                <button className='btn btn-outline-secondary' onClick={this.props.onCancelTask}>Cancel</button>
+            </form>
         );
     }
 }
