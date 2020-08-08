@@ -43,12 +43,13 @@ class TaskItem extends Component {
                 </button>);
         }
         const rowId = `tr_${id}`;
+        const taskLink = <a href='/#' onClick={() => this.props.onEditItem({ ...this.props.val })}>{taskName}</a>
         return (
             <tr id={rowId}>
                 <th scope="row">{index + 1}</th>    
-                <td>{taskName}</td>
+                <td>{taskLink}</td>
                 <td>{this.generateLevelIcon(priority)}</td>
-                <td>{moment(createdAt).format('MMM DD HH:mm')}</td>
+                <td><p>{moment(createdAt).format('MMM DD HH:mm')}</p></td>
                 <td>
                     {actionControl}
                 </td>

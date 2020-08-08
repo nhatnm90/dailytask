@@ -71,15 +71,16 @@ class Form extends Component {
 
     render() {
         const { taskName, priority, comment, isLoadingButton } = this.state;
+        const isEnable = this.props.tabSelected === 0;
         return (
             <form>
                 <div className="form-group">
                     <label htmlFor="txtTaskName">Task name</label>
-                    <input id="txtTaskName" name="taskName" type="text" className="form-control" value={taskName} onChange={this.handleInputChange} />
+                    <input disabled={!isEnable}  id="txtTaskName" name="taskName" type="text" className="form-control" value={taskName} onChange={this.handleInputChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="ddlPriority">Priority</label>
-                    <select id='ddlPriority' name="priority" value={parseInt(priority)} className="form-control" required="required" onChange={this.handleInputChange}>
+                    <select disabled={!isEnable} id='ddlPriority' name="priority" value={parseInt(priority)} className="form-control" required="required" onChange={this.handleInputChange}>
                         <option value={0}>Low</option>
                         <option value={1}>Medium</option>
                         <option value={2}>High</option>
@@ -87,14 +88,21 @@ class Form extends Component {
                 </div>
                 <div className="form-group">
                     <label htmlFor="textAreaComment">Comment</label>
-                    <textarea name="comment" className="form-control" id="textAreaComment" rows={4} onChange={this.handleInputChange} value={comment} />
+                    <textarea disabled={!isEnable}  name="comment" className="form-control" id="textAreaComment" rows={4} onChange={this.handleInputChange} value={comment} />
                 </div>
-                { !isLoadingButton ? 
-                    <button id='btnSubmitTask' type="submit" onClick={this.handleSubmit} className="btn btn-pink-1 submit-form">Submit</button> :
-                    <button className="btn btn-pink-1 submit-form" type="button" disabled>
-                        <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
-                        Submitting...
-                    </button>
+                { isEnable && 
+                    (!isLoadingButton ? 
+                        <button id='btnSubmitTask'
+                                type="submit"
+                                onClick={this.handleSubmit}
+                                className="btn btn-pink-1 submit-form">
+                            Submit
+                        </button> :
+                        <button className="btn btn-pink-1 submit-form" type="button" disabled>
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+                            Submitting...
+                        </button>
+                    )
                 }
                 <button className='btn btn-outline-secondary' onClick={this.props.onCancelTask}>Cancel</button>
             </form>

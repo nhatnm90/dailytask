@@ -9,7 +9,12 @@ class TaskList extends Component {
         
         const itemEle = this.props.items.map((row, index) => {
             let item = Object.assign({},{ ...row, index });
-            return <TaskRow tabSelected={tabSelected} onEditItem={this.props.editItem} openConfirmModal={this.props.openConfirmModal} key={index} val={item} />
+            return <TaskRow
+                tabSelected={tabSelected}
+                onEditItem={this.props.editItem}
+                openConfirmModal={this.props.openConfirmModal}
+                key={index}
+                val={item} />
         });
 
         return (
@@ -21,7 +26,7 @@ class TaskList extends Component {
                         <th scope="col">#</th>
                         <th scope="col">Task</th>
                         <th scope="col">Priority</th>
-                        <th scope="col">Created at</th>
+                        <th scope="col">At</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>

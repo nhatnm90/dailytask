@@ -74,6 +74,19 @@ tr.table-pink-1 {
     background-color: #eac1f5;
 }
 
+tr td a {
+    color: #777777;
+}
+
+tr td a:hover {
+    color: #df69ef;
+    text-decoration: none;
+}
+
+tr td p {
+    color: #777777;
+}
+
 span.level-pink {
     color: #fff;
     background-color: #eac1f5;

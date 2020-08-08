@@ -24,8 +24,6 @@ class TodoList extends Component {
             showModal: false,
             deletedItem: null,
             tabSelected: 0,
-            listName: 'Current tasks',
-            listStyle: 'panel panel-success',
             showLoading: false
             
         };
@@ -128,19 +126,13 @@ class TodoList extends Component {
 
     handleChangeTab(tabSelected) {
         this.setState({ showLoading: true });
-        let listName = '';
-        let listStyle = '';
         if (tabSelected === 0) {
             this.getCurrentTaskFromDB();
-            listName = 'Current tasks';
-            listStyle = 'panel panel-success';
         } else if (tabSelected === 1) {
-            listName = 'Archive tasks';
-            listStyle = 'panel panel-default';
             this.getArchiveTaskFromDB();
         }
         this.setState({
-            tabSelected, listName, listStyle
+            tabSelected
         });
     }
 
@@ -166,7 +158,6 @@ class TodoList extends Component {
                     onClickSort = {this.handleSort}
                     tabSelected={tabSelected}
                 />
-                {/*{ addForm }*/}
                 <TaskList
                     editItem={this.handleBindingSelectedItem}
                     openConfirmModal={this.handleOpenConfirmModal}
@@ -187,6 +178,7 @@ class TodoList extends Component {
                     onAddTask={this.handleAddTask}
                     onEditTask={this.handleEditTask}
                     onClickCancel={this.handleToggleAddForm}
+                    tabSelected={tabSelected}
                 />
             </div>
         );

@@ -40,6 +40,7 @@ class TaskModal extends Component {
                         onAddTask={this.props.onAddTask}
                         onEditTask={this.props.onEditTask}
                         onCancelTask={this.props.onClickCancel}
+                        tabSelected={this.props.tabSelected}
                     />
                 </Modal.Body>
             </Modal>
