@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import TaskRow from './TaskItem';
+import Loading from '../control/Loading';
 
 class TaskList extends Component {
 
     render() {
-        const { listName, listStyle, tabSelected } = this.props;
+        const { listName, listStyle, tabSelected, showLoading } = this.props;
         
         const itemEle = this.props.items.map((row, index) => {
             let item = Object.assign({},{ ...row, index });
@@ -12,22 +13,27 @@ class TaskList extends Component {
         });
 
         return (
-            <div className={listStyle}>
-                <div className="panel-heading">{listName}</div>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Task</th>
-                            <th scope="col">Priority</th>
-                            <th scope="col">Created at</th>
-                            <th scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {itemEle}
-                    </tbody>
-                </table>
+            <div className="card">
+                <div className="card-header">{listName}</div>
+                <div className="card-body">
+                    {showLoading ?
+                        <Loading/> :
+                        <table className="table table-hover">
+                            <thead>
+                            <tr className='table-secondary'>
+                                <th scope="col">#</th>
+                                <th scope="col">Task</th>
+                                <th scope="col">Priority</th>
+                                <th scope="col">Created at</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {itemEle}
+                            </tbody>
+                        </table>
+                    }
+                </div>
             </div>
         );
     }

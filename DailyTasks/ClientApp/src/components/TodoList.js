@@ -24,7 +24,8 @@ class TodoList extends Component {
             deletedItem: null,
             tabSelected: 0,
             listName: 'Current tasks',
-            listStyle: 'panel panel-success'
+            listStyle: 'panel panel-success',
+            showLoading: false
             
         };
 
@@ -105,22 +106,24 @@ class TodoList extends Component {
     getCurrentTaskFromDB () {
         taskService.getAll()
             .then(data => {
-                this.setState({ items: data, isShowAddForm: false });
+                this.setState({ items: data, isShowAddForm: false, showLoading: false });
             });
     }
 
     getArchiveTaskFromDB () {
         taskService.getArchive()
             .then(data => {
-                this.setState({ items: data, isShowAddForm: false });
+                this.setState({ items: data, isShowAddForm: false, showLoading: false });
             });
     }
 
     componentWillMount() {
+        this.setState({ showLoading: true });
         this.getCurrentTaskFromDB();
     }
 
     handleChangeTab(tabSelected) {
+        this.setState({ showLoading: true });
         let listName = '';
         let listStyle = '';
         if (tabSelected === 0) {
@@ -141,13 +144,15 @@ class TodoList extends Component {
         let addForm = null;
 
         let { isShowAddForm, items, sortDir, sortName, inputSearch, itemSelected,
-            showModal, deletedItem, tabSelected, listName, listStyle } = this.state;
+            showModal, deletedItem, tabSelected, listName, listStyle, showLoading } = this.state;
         if (isShowAddForm) {
             addForm = <Form itemSelected={itemSelected} onAddTask={this.handleAddTask} onEditTask={this.handleEditTask} onClickCancel={this.handleToogleAddForm} />;
         }
 
         items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.taskName), _.toLower(inputSearch))) : items;
         items = _.orderBy(items,[sortName],[sortDir]);
+        
+        let taskList = null;
 
         return (
             <div>
@@ -168,6 +173,7 @@ class TodoList extends Component {
                     tabSelected={tabSelected}
                     listName={listName}
                     listStyle={listStyle}
+                    showLoading={showLoading}
                 />
                 <ConfirmModal tabSelected={tabSelected} show={showModal} deletedItem={deletedItem ?? {}} handleCloseModal={this.handleCloseModal} handleDeleteItem={this.handleDeleteItem} />
             </div>

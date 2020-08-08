@@ -19,7 +19,7 @@ class Control extends Component {
         if (this.props.isShowAddForm) {
             return (<button type="button" className="btn btn-default btn-block" onClick={this.handleToogle}>Cancel</button>);
         }
-        return (<button id="btnAddNewTask" disabled={this.props.tabSelected === 1} type="button" className="btn btn-info btn-block" onClick={this.handleToogle}>Add new task</button>);	
+        return (<button id="btnAddNewTask" disabled={this.props.tabSelected === 1} type="button" className="btn btn-success btn-block" onClick={this.handleToogle}>Add new task</button>);	
     }
 
     render() {
@@ -30,7 +30,7 @@ class Control extends Component {
                 {/* SORT AREA */}	
               <Sort onClickSort={this.props.onClickSort} />
                 {/* ADD NEW TASK BUTTON */}
-                <div className="col-xs-5 col-sm-5 col-md-5 col-lg-5">		
+                <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">		
                     { button }	
                 </div>
             </div>

@@ -20,9 +20,9 @@ class Tabs extends Component {
     buildMenu(tabSelected, onChangeTab) {
       return constants.TABS .map((item) => {
         const { name, index } = item;
-        const className = index === tabSelected ? 'active' : '';
-        return <li key={index} role='presentation' className={className}>
-            <a href='javascript:void(0)' onClick={() => this.props.onChangeTab(index)}>{name}</a></li>
+        const className = index === tabSelected ? 'nav-link active' : 'nav-link';
+        return <li key={index} className='nav-item'>
+            <a href='/#' className={className} onClick={() => this.props.onChangeTab(index)}>{name}</a></li>
       });
     }
 
@@ -30,9 +30,9 @@ class Tabs extends Component {
         const { tabSelected } = this.props;
         const menu = this.buildMenu(tabSelected);
         return (
-          <ul className="nav nav-tabs">
-            {menu}
-          </ul>
+            <ul className="nav nav-tabs">
+                {menu}
+            </ul>
         );
     }
 }

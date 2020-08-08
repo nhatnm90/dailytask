@@ -20,22 +20,21 @@ class Sort extends Component {
     render() {
         const { sortName, sortDir } = this.state;
         return (
-          <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-            <div className="dropdown">
-              <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sort by <span className="caret" />
-              </button>
-              <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a href='/#' role="button" onClick={() => this.handleSort('taskName', 'asc')}>Name Asc</a></li>
-                <li><a href='/#' role="button" onClick={() => this.handleSort('taskName', 'desc')}>Name Desc</a></li>
-                <hr/>
-                <li><a href='/#' role="button" onClick={() => this.handleSort('priority', 'asc')}>Level Asc</a></li>
-                <li><a href='/#' role="button" onClick={() => this.handleSort('priority', 'desc')}>Level Desc</a></li>
-              </ul>
-              <span> </span>
-              <span id="spSort" name="lbSortDesc" className="label label-success label-medium">{`${sortName.toLocaleUpperCase()} - ${sortDir.toUpperCase()}` }</span>
+            <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4 input-group mb-4">
+                <div className="input-group-prepend">
+                    <button type="button" className="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Sort by 
+                    </button>
+                    <div className="dropdown-menu">
+                        <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('taskName', 'asc')}>TaskName Asc</a>
+                        <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('taskName', 'desc')}>TaskName Desc</a>
+                        <div className="dropdown-divider" />
+                        <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('priority', 'asc')}>Level Asc</a>
+                        <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('priority', 'desc')}>Level Desc</a>
+                    </div>
+                </div>
+                <input id="spSort" value={`${sortName.toLocaleUpperCase()} - ${sortDir.toUpperCase()}` } name="lbSortDesc" readOnly type="text" className="form-control" aria-label="Text input with dropdown button" />
             </div>
-          </div>
         );
     }
 }
