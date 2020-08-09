@@ -29,8 +29,8 @@ class Sort extends Component {
                         <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('taskName', 'asc')}>TaskName Asc</a>
                         <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('taskName', 'desc')}>TaskName Desc</a>
                         <div className="dropdown-divider" />
-                        <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('priority', 'asc')}>Level Asc</a>
-                        <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('priority', 'desc')}>Level Desc</a>
+                        <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('priority', 'asc')}>Prioity Asc</a>
+                        <a className="dropdown-item" href='/#' role="button" onClick={() => this.handleSort('priority', 'desc')}>Prioity Desc</a>
                     </div>
                 </div>
                 <input id="spSort" value={`${sortName.toLocaleUpperCase()} - ${sortDir.toUpperCase()}` } name="lbSortDesc" readOnly type="text" className="form-control" aria-label="Text input with dropdown button" />

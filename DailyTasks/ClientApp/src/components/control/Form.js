@@ -12,8 +12,7 @@ class Form extends Component {
             id: '',
             taskName: '',
             priority: 0,
-            comment: '',
-            isLoadingButton: false
+            comment: ''
         };
 
         this.handleCancel = this.handleCancel.bind(this);
@@ -42,7 +41,7 @@ class Form extends Component {
     }
 
     handleSubmit(event) {
-        this.setState({ isLoadingButton: true })
+        this.props.onHandleSubmit();
         const { id, taskName, priority, comment } = this.state;
         if (isEmpty(id)) {
             this.props.onAddTask({ taskName, priority: parseInt(priority), id: uuidv4(), comment });
@@ -70,7 +69,7 @@ class Form extends Component {
     }
 
     render() {
-        const { taskName, priority, comment, isLoadingButton } = this.state;
+        const { taskName, priority, comment } = this.state;
         const isEnable = this.props.tabSelected === 0;
         return (
             <form>
@@ -90,21 +89,6 @@ class Form extends Component {
                     <label htmlFor="textAreaComment">Comment</label>
                     <textarea disabled={!isEnable}  name="comment" className="form-control" id="textAreaComment" rows={4} onChange={this.handleInputChange} value={comment} />
                 </div>
-                { isEnable && 
-                    (!isLoadingButton ? 
-                        <button id='btnSubmitTask'
-                                type="submit"
-                                onClick={this.handleSubmit}
-                                className="btn btn-pink-1 submit-form">
-                            Submit
-                        </button> :
-                        <button className="btn btn-pink-1 submit-form" type="button" disabled>
-                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
-                            Submitting...
-                        </button>
-                    )
-                }
-                <button className='btn btn-outline-secondary' onClick={this.props.onCancelTask}>Cancel</button>
             </form>
         );
     }

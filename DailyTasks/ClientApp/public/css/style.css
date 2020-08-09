@@ -70,8 +70,8 @@ button.btn-pink-1:hover {
 }
 
 tr.table-pink-1 {
-    color: #fff;
-    background-color: #eac1f5;
+    color: #dc8fe6;
+    background-color: #f0f0f0;
 }
 
 tr td a {
@@ -99,4 +99,26 @@ li.nav-item a {
 tr:hover {
     background-color: #f9e2ff;
     color: #777777;
+}
+
+.title {
+    font-family: 'Cute Font';
+    font-size: 35px;
+}
+
+.validation {
+    display:none;
+    margin: 0 0 10px;
+    font-weight:400;
+    font-size:13px;
+    color: #DE5959;
+}
+
+span.required {
+    color: #DE5959;
+    margin-left: 5px;
+}
+
+input.error, select.error {
+    border-color: #DE5959;
 }

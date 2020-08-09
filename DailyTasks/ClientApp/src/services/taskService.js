@@ -1,4 +1,4 @@
-import { constants } from '../utils/constant';
+import { environment } from '../environment';
 
 export const taskService = {
     getAll,
@@ -14,28 +14,28 @@ function getAll() {
     const requestOptions = {
         method: 'GET'
     };
-    return fetch(`${constants.API_URL}/task`, requestOptions).then(handleResponse);
+    return fetch(`${environment.API_URL}/task`, requestOptions).then(handleResponse);
 }
 
 function getArchive() {
     const requestOptions = {
         method: 'GET'
     };
-    return fetch(`${constants.API_URL}/task/archive`, requestOptions).then(handleResponse);
+    return fetch(`${environment.API_URL}/task/archive`, requestOptions).then(handleResponse);
 }
 
 function getById(id) {
     const requestOptions = {
         method: 'GET'
     };
-    return fetch(`${constants.API_URL}/task/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${environment.API_URL}/task/${id}`, requestOptions).then(handleResponse);
 }
 
 function archive(id) {
     const requestOptions = {
         method: 'GET'
     };
-    return fetch(`${constants.API_URL}/task/${id}/archive`, requestOptions).then(handleResponse);
+    return fetch(`${environment.API_URL}/task/${id}/archive`, requestOptions).then(handleResponse);
 }
 
 function insert(task) {
@@ -44,7 +44,7 @@ function insert(task) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(task)
     };
-    return fetch(`${constants.API_URL}/task`, requestOptions).then(handleResponse);
+    return fetch(`${environment.API_URL}/task`, requestOptions).then(handleResponse);
 }
 
 function update(task) {
@@ -53,7 +53,7 @@ function update(task) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(task)
     };
-    return fetch(`${constants.API_URL}/task/${task.id}`, requestOptions).then(handleResponse);
+    return fetch(`${environment.API_URL}/task/${task.id}`, requestOptions).then(handleResponse);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -61,7 +61,7 @@ function _delete(id) {
     const requestOptions = {
         method: 'DELETE'
     };
-    return fetch(`${constants.API_URL}/task/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${environment.API_URL}/task/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

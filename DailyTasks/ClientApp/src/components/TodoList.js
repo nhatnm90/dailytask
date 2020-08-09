@@ -28,7 +28,7 @@ class TodoList extends Component {
             
         };
 
-        this.handleToggleAddForm = this.handleToggleAddForm.bind(this);
+        this.openFormModal = this.openFormModal.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleSort = this.handleSort.bind(this);
         this.handleDeleteItem = this.handleDeleteItem.bind(this);
@@ -41,7 +41,7 @@ class TodoList extends Component {
         this.handleChangeTab = this.handleChangeTab.bind(this);
     }
 
-    handleToggleAddForm() {
+    openFormModal() {
         this.setState({
             itemSelected: null,
             isShowAddForm: !this.state.isShowAddForm
@@ -86,18 +86,18 @@ class TodoList extends Component {
         this.handleCloseModal();
     }
     
-    handleAddTask(task) {
-        // this.setState({ showLoading: true });
+    handleAddTask(task, callback) {
         const addTask = _.assign({}, { ...task }, { isDone: false });
         taskService.insert(addTask).then(() => {
             this.getCurrentTaskFromDB();
+            callback();
         })
     }
 
-    handleEditTask(task) {
-        // this.setState({ showLoading: true });
+    handleEditTask(task, callback) {
         taskService.update(task).then(() => {
             this.getCurrentTaskFromDB();
+            callback();
         });
     }
 
@@ -152,7 +152,7 @@ class TodoList extends Component {
                 <Title />
                 <Tabs tabSelected={this.state.tabSelected} onChangeTab={this.handleChangeTab} />
                 <Control
-                    onClick = {this.handleToggleAddForm}
+                    onClick = {this.openFormModal}
                     isShowAddForm = {isShowAddForm}
                     onClickSearch = {this.handleSearch}
                     onClickSort = {this.handleSort}
@@ -177,7 +177,7 @@ class TodoList extends Component {
                     itemSelected={itemSelected}
                     onAddTask={this.handleAddTask}
                     onEditTask={this.handleEditTask}
-                    onClickCancel={this.handleToggleAddForm}
+                    onClickCancel={this.openFormModal}
                     tabSelected={tabSelected}
                 />
             </div>
