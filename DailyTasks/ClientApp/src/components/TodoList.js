@@ -76,10 +76,10 @@ class TodoList extends Component {
         });
     }
 
-    handleDeleteItem(id) {
+    handleDeleteItem(id, isForeDelete) {
         this.setState({ showLoading: true });
         if (this.state.tabSelected === 0) {
-            this.archiveItem(id);
+            isForeDelete ?  this.deleteItem(id) : this.archiveItem(id);
         } else if (this.state.tabSelected === 1) {
             this.deleteItem(id);
         }
