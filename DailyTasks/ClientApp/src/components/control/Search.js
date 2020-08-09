@@ -31,7 +31,7 @@ class Search extends Component {
 
     render() {
         return (
-            <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6 mb-4">
                 <div className="input-group">
                     <input id="txtSearch" value={this.state.inputSearch} onChange={this.handleChange} type="text" className="form-control" placeholder="..." aria-label="Recipient's username with two button addons" aria-describedby="button-addon4" />
                     <div className="input-group-append" id="button-addon4">

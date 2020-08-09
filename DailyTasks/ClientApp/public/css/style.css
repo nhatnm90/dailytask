@@ -61,6 +61,7 @@ button.btn-pink-1 {
     color: #fff;
     background-color: #eac1f5;
     border-color: #dc8fe6;
+    margin-bottom: 3px;
 }
 
 button.btn-pink-1:hover {
