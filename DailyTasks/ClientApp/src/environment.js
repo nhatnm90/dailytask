@@ -1,3 +1,3 @@
 export const environment = {
-    API_URL: 'https://dailytaskspublish.azurewebsites.net',
+    API_URL: 'http://localhost:5000'
 };

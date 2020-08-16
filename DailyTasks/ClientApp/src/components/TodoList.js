@@ -7,8 +7,8 @@ import Form from './control/Form'
 import TaskList from './gridData/TaskList'
 import ConfirmModal from './control/ConfirmModal'
 import { taskService } from '../services';
-import TaskModal from "./control/TaskModal";
-
+import TaskModal from './control/TaskModal';
+import Paginate from './control/Paginate'
 class TodoList extends Component {
 
     constructor(props) {
@@ -24,8 +24,10 @@ class TodoList extends Component {
             showModal: false,
             deletedItem: null,
             tabSelected: 0,
-            showLoading: false
-            
+            showLoading: false,
+            page: 1,
+            pageSize: 2,
+            totalPage: 0
         };
 
         this.openFormModal = this.openFormModal.bind(this);
@@ -39,6 +41,7 @@ class TodoList extends Component {
         this.handleCloseModal = this.handleCloseModal.bind(this);
         this.deleteItem = this.deleteItem.bind(this);
         this.handleChangeTab = this.handleChangeTab.bind(this);
+        this.handleChangePage = this.handleChangePage.bind(this);
     }
 
     openFormModal() {
@@ -108,15 +111,29 @@ class TodoList extends Component {
     getCurrentTaskFromDB () {
         taskService.getAll()
             .then(data => {
-                this.setState({ items: data, isShowAddForm: false, showLoading: false });
+                this.setState({
+                    items: data,
+                    isShowAddForm: false,
+                    showLoading: false,
+                    totalPage: this.calculateTotalPage(data.length)
+                });
             });
     }
 
     getArchiveTaskFromDB () {
         taskService.getArchive()
             .then(data => {
-                this.setState({ items: data, isShowAddForm: false, showLoading: false });
+                this.setState({
+                    items: data,
+                    isShowAddForm: false,
+                    showLoading: false,
+                    totalPage: this.calculateTotalPage(data.length)
+                });
             });
+    }
+    
+    calculateTotalPage(numberOfItems) {
+        return Math.floor(numberOfItems/this.state.pageSize) + (numberOfItems % this.state.pageSize > 0 ? 1 : 0);
     }
 
     componentWillMount() {
@@ -135,15 +152,35 @@ class TodoList extends Component {
             tabSelected
         });
     }
+    
+    handleChangePage(event, page) {
+        this.setState({ page });
+    }
+    
+    getItemsByPaging(items, page, pageSize) {
+        let startIndex = (page - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        let listIndex = [];
+        while (startIndex < endIndex) {
+            listIndex.push(startIndex);
+            startIndex += 1;
+        }
+        return items.filter((item, i) => {
+            return listIndex.includes(i);
+        })
+    }
 
     render() {
         let addForm = null;
 
         let { isShowAddForm, items, sortDir, sortName, inputSearch, itemSelected,
-            showModal, deletedItem, tabSelected, listName, listStyle, showLoading } = this.state;
+            showModal, deletedItem, tabSelected, listName, listStyle, showLoading,
+            page, pageSize } = this.state;
 
         items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.taskName), _.toLower(inputSearch))) : items;
         items = _.orderBy(items,[sortName],[sortDir]);
+        
+        items = this.getItemsByPaging(items, page, pageSize);
         
         let taskList = null;
 
@@ -167,6 +204,12 @@ class TodoList extends Component {
                     listStyle={listStyle}
                     showLoading={showLoading}
                 />
+                <Paginate
+                    count={this.state.totalPage}
+                    color="secondary"
+                    handleChange = {this.handleChangePage}
+                />
+                
                 <ConfirmModal
                     tabSelected={tabSelected}
                     show={showModal} deletedItem={deletedItem ?? {}}
