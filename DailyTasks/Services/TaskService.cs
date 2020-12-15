@@ -21,7 +21,7 @@ namespace DailyTasks.Services
 
         public void Add(TaskModel taskModel)
         {
-            taskModel.CreatedAt = DateTime.Now;
+            taskModel.CreatedDate = DateTime.Now;
             _context.TaskModels.Add(taskModel);
             _context.SaveChanges();
         }
@@ -46,6 +46,7 @@ namespace DailyTasks.Services
 
         public IEnumerable<TaskModel> GetAllTask()
         {
+            var a = _context.TaskModels.ToList();
             return _context.TaskModels.Where(x => !x.IsDone).ToList();
         }
         

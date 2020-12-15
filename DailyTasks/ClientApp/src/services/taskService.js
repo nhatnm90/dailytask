@@ -41,7 +41,9 @@ function archive(id) {
 function insert(task) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(task)
     };
     return fetch(`${environment.API_URL}/task`, requestOptions).then(handleResponse);

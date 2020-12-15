@@ -170,7 +170,8 @@ class TaskModal extends Component {
                                       className="form-control"
                                       id="textAreaComment"
                                       rows={4}
-                                      onBlur={this.handleInputChange}
+                                      onBlur={this.handleInputOnBlur}
+                                      onChange={this.handleInputChange}
                                       value={comment} />
                         </div>
                     </form>

@@ -16,6 +16,6 @@ namespace DailyTasks.DTOs
         
         public bool IsDone { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

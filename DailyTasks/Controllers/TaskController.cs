@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Data.Entity;
 using DailyTasks.Services;
 using System.Data.Entity.Infrastructure;
+using Microsoft.AspNetCore.Cors;
 
 namespace DailyTasks.Controllers
 {

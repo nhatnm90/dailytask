@@ -7,11 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using DailyTasks.Services;
+using System;
 
 namespace DailyTasks
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "AllowOrigin";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -22,6 +25,18 @@ namespace DailyTasks
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                    builder =>
+                    builder.AllowAnyOrigin().WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .WithExposedHeaders("content-disposition")
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .SetPreflightMaxAge(TimeSpan.FromSeconds(3600)));
+            });
+
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -30,7 +45,7 @@ namespace DailyTasks
                 configuration.RootPath = "ClientApp/build";
             });
 
-            var connectionString = Configuration.GetConnectionString("AzureDBContext");
+            var connectionString = Configuration.GetConnectionString("DBContext1");
             services.AddDbContext<DailyTaskContext>(options =>
             {
                 options.UseSqlServer(connectionString);
@@ -54,6 +69,8 @@ namespace DailyTasks
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -63,15 +80,15 @@ namespace DailyTasks
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+            //    if (env.IsDevelopment())
+            //    {
+            //        spa.UseReactDevelopmentServer(npmScript: "start");
+            //    }
+            //});
         }
     }
 }

@@ -26,8 +26,8 @@ class TodoList extends Component {
             tabSelected: 0,
             showLoading: false,
             page: 1,
-            pageSize: 2,
-            totalPage: 0
+            pageSize : 10,
+            totalPage: 0    
         };
 
         this.openFormModal = this.openFormModal.bind(this);
@@ -88,7 +88,7 @@ class TodoList extends Component {
         }
         this.handleCloseModal();
     }
-    
+
     handleAddTask(task, callback) {
         const addTask = _.assign({}, { ...task }, { isDone: false });
         taskService.insert(addTask).then(() => {
@@ -131,7 +131,7 @@ class TodoList extends Component {
                 });
             });
     }
-    
+
     calculateTotalPage(numberOfItems) {
         return Math.floor(numberOfItems/this.state.pageSize) + (numberOfItems % this.state.pageSize > 0 ? 1 : 0);
     }
@@ -149,14 +149,15 @@ class TodoList extends Component {
             this.getArchiveTaskFromDB();
         }
         this.setState({
-            tabSelected
+            tabSelected,
+            page: 1
         });
     }
-    
+
     handleChangePage(event, page) {
         this.setState({ page });
     }
-    
+
     getItemsByPaging(items, page, pageSize) {
         let startIndex = (page - 1) * pageSize;
         const endIndex = startIndex + pageSize;
@@ -179,9 +180,9 @@ class TodoList extends Component {
 
         items = inputSearch.length > 0 ? items.filter(i => _.includes(_.toLower(i.taskName), _.toLower(inputSearch))) : items;
         items = _.orderBy(items,[sortName],[sortDir]);
-        
+
         items = this.getItemsByPaging(items, page, pageSize);
-        
+
         let taskList = null;
 
         return (
@@ -206,8 +207,8 @@ class TodoList extends Component {
                 />
                 <Paginate
                     count={this.state.totalPage}
-                    color="secondary"
-                    handleChange = {this.handleChangePage}
+                    color="standard"
+                    handleChange={this.handleChangePage}
                 />
                 
                 <ConfirmModal
